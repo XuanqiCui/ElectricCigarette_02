@@ -19,6 +19,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     private Context context;
     private List<Integer> imageList;
 
+    //构造方法
     public ImageAdapter(Context context , List<Integer> imageList){
         this.context = context;
         this.imageList = imageList;
@@ -26,19 +27,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @NonNull
     @Override
+    //创建ViewHolder
     public ImageAdapter.ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_image, parent, false);
         return new ImageViewHolder(view);
     }
 
     @Override
+    //数据绑定
     public void onBindViewHolder(@NonNull ImageAdapter.ImageViewHolder holder, int position) {
         holder.imageView.setImageResource(imageList.get(position));
 
-        // 设置点击事件
-//        holder.imageView.setOnClickListener(v ->
-//                Toast.makeText(context, "点击了图片 " + position, Toast.LENGTH_SHORT).show()
-//        );
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +48,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         });
     }
 
+    //获取列表项数量，RecyclerView 根据此数量创建对应数量的列表项。
     @Override
     public int getItemCount() {
         return imageList.size();
@@ -59,6 +59,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
+            //初始化控件
             imageView = itemView.findViewById(R.id.imageView);
         }
     }
