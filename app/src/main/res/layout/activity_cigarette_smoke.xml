@@ -9,16 +9,36 @@
     tools:context=".CigaretteSmoke">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp">
+        <TextView
+            android:id="@+id/tv_title_rare_cigarette"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="此盒还剩："
+            android:textSize="25dp"/>
+
+        <TextView
+            android:id="@+id/tv_cigarette_numb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XXX"
+            android:textSize="25dp" />
+
+        <TextView
+           android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="根"
+            android:textSize="25dp" />
 
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <ImageView
             android:layout_marginTop="150dp"
             android:id="@+id/iv_cigarette_white_part"
@@ -52,7 +72,7 @@
             android:layout_height="74dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
-            android:onClick="smoke"
+            android:onClick="extra"
             android:text="再来一根"
             android:layout_alignParentBottom="true"/>
 
