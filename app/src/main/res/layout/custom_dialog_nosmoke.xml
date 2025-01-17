@@ -16,6 +16,14 @@
         android:gravity="center"
         android:layout_marginBottom="10dp" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="抽完啦！"
+        android:textSize="55dp"
+        android:gravity="center"
+        android:textColor="@color/red"/>
+
     <Button
         android:id="@+id/btn_confirm"
         android:layout_width="match_parent"

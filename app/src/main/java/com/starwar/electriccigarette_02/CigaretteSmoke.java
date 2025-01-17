@@ -2,7 +2,12 @@ package com.starwar.electriccigarette_02;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,6 +44,8 @@ public class CigaretteSmoke extends AppCompatActivity {
     private ExtendedFloatingActionButton flbtn_cigarette_refresh;
     private TextView tv_cigarette_numb;
     private Button btn_confirm;
+    private CameraManager cameraManager;
+    private String cameraId;
 
 
     @Override
@@ -49,6 +56,24 @@ public class CigaretteSmoke extends AppCompatActivity {
 
         initView();
 
+        checkFlashLight();
+
+    }
+
+    private void checkFlashLight() {
+        cameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
+
+        if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)){
+            Toast.makeText(this, "没有闪光灯", Toast.LENGTH_SHORT).show();
+        }
+
+        if (cameraManager != null){
+            try {
+                cameraId = cameraManager.getCameraIdList()[0];
+            } catch (CameraAccessException e) {
+                Toast.makeText(this,"无法获取摄像头Id",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void initView() {
@@ -60,7 +85,6 @@ public class CigaretteSmoke extends AppCompatActivity {
 
         tv_cigarette_numb.setText(String.valueOf(cigarette_numb));
     }
-
 
     public void extra(View view) {
         currentIndex = 0;
@@ -109,10 +133,37 @@ public class CigaretteSmoke extends AppCompatActivity {
         if(currentIndex != 3){
             currentIndex = (currentIndex + 1) % images.length ;
             iv_cigarette_white_part.setImageResource(images[currentIndex]);
+            flashLightOn();
         }
         else {
             iv_cigarette_white_part.setImageResource(images[3]);
             Toast.makeText(this, "吸烟完毕,请换一根", Toast.LENGTH_SHORT).show();
         }
+
+
+
     }
+
+    private void flashLightOn() {
+        if(cameraManager == null || cameraId == null){
+            Toast.makeText(this, "闪光灯不可用", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        int delayMillis = 80;
+
+        for(int i = 0; i < 6; i++){
+            boolean turnOn = i % 2 == 0;
+            handler.postDelayed(() -> {
+                try {
+                    cameraManager.setTorchMode(cameraId, turnOn);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+            } , i * delayMillis );
+        }
+
+    }
+
 }
